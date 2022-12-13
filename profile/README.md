@@ -50,12 +50,15 @@ Diagram Legend:
 - Red: Power
 - Dotted: Wireless
 
+
+<!-- ![ECE 148 Electrical Schematic_no_bg](/assets/ECE%20148%20Electrical%20Schematic.svg) -->
 ![ECE 148 Electrical Schematic_no_bg](/assets/ECE%20148%20Electrical%20Schematic_no_bg.svg)
 
 
 ### Software design
 
-![ECE 148 Software Pipeline](/assets/ECE%20148%20Software%20Pipeline.svg)
+<!-- ![ECE 148 Software Pipeline](/assets/ECE%20148%20Software%20Pipeline.svg) -->
+![ECE 148 Software Pipeline_no_bg](/assets/ECE%20148%20Software%20Pipeline_no_bg.svg)
 
 ### BEV calibration and real time projection
 
