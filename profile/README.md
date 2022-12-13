@@ -50,7 +50,7 @@ Diagram Legend:
 - Red: Power
 - Dotted: Wireless
 
-![ECE 148 Electrical Schematic](/assets/ECE%20148%20Electrical%20Schematic.svg)
+![ECE 148 Electrical Schematic_no_bg](/assets/ECE%20148%20Electrical%20Schematic_no_bg.svg)
 
 
 ### Software design
@@ -89,6 +89,9 @@ The following are some of the projects that we have worked on during the course 
 
 
 ### OpenCV Line Follower
+
+
+
 
 
 ### ROS2 Line Follower
