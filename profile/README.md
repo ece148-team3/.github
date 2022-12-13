@@ -66,6 +66,8 @@ We initially use chessboard to calibrate the camera. By doing so, we can use the
 
 ### Image stitching
 
+Utilzing the stiticher object from OpenCV we were able to successfully stitch round 10 non-track image together, but because the suboptimal lighting condition along with the lack of details for the track we weren't able to sucessfully stitch any of the BEV images of the track together. With that being said we implemented two different method to filter out images that were too similar inorder to reduce processing overhead. Structural Similarity Index was implemented by comparing the structure similarity between the two images and outputs an index from 0 to 1, 1 for the same two images. But one downside for SSI was how computationally intensive the process is. Thus, we also tried using Peak signal-to-noise ratio as it compares the difference between the two images as noise, thus higher the noise, the more different the two pictures are, PSNR was less computationally intensive but Jetson still struggles to stitch images in real time.
+
 ### Obstacle avoidance using disparity map
 
 ### Demo!
