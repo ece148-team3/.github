@@ -10,10 +10,12 @@ What we have done:
 
 Detailed Description of Each Task:
 Birds-Eye-View Transformaion:
-
 Image Stitching:
-
 Obstacle Aviodance:
+ROS2 Line Follower:
+
+Future Advancement:
+OCR:
 
 ## Team Members
 Xiran Wang(MAE)
