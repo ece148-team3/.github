@@ -56,13 +56,16 @@ Diagram Legend:
 
 ### BEV calibration and real time projection
 
+To obtain accurate BEV projection, we need to calibrate the camera. We used a checkerboard calibration pattern to calibrate the camera.  In short, the extrinsic matrix is a transformation matrix from the world coordinate system to the camera coordinate system, and the intrinsic matrix is a transformation matrix from the camera coordinate system to the screen coordinate system. After we obtain the extrinsic and intrinsic matrix, we can use OpenCV libraries and algorithms to apply BEV Transformation accordingly. Here's an example of the checkerboard calibration pattern being applied for transformation:
 
 
-We initially use chessboard to calibrate the camera. By doing so, we can use the fixed calibration to determine the geometric parameters of the image formation process. By using algorithm, we can obtain both intrinsic and extrinsic matrix. In short (The extrinsic matrix is a transformation matrix from the world coordinate system to the camera coordinate system, and the intrinsic matrix is a transformation matrix from the camera coordinate system to the pixel coordinate system.) After we obtain these matrix, we can use OpenCV libraries and algorithms to apply BEV Transformation accordingly.
+![Result of checkerboard calibration](/assets/calibration_result.png)
 
-The following is the result of BEV calibration:
+After the transformation, we deployed the code on Jetson with CUDA to achieve ~20 FPS / 720P. Here's an example of the BEV projection in action. We then measured the performance hit of the BEV projection and found that it took up significant amount of CPU processing power. Thus, we decided to move the project onto GPU to achieve real-time BEV projection.
 
-![BEV Calibration](/assets/calibration_result.png)
+The following is a screenshot of the CPU and GPU usage during BEV projection, you can see that with the GPU helping out, the CPU usage dropped significantly.
+
+![CPU and GPU usage during BEV projection](/assets/bev_perf.png)
 
 ### Image stitching
 
