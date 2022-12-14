@@ -60,6 +60,10 @@ Diagram Legend:
 
 We initially use chessboard to calibrate the camera. By doing so, we can use the fixed calibration to determine the geometric parameters of the image formation process. By using algorithm, we can obtain both intrinsic and extrinsic matrix. In short (The extrinsic matrix is a transformation matrix from the world coordinate system to the camera coordinate system, and the intrinsic matrix is a transformation matrix from the camera coordinate system to the pixel coordinate system.) After we obtain these matrix, we can use OpenCV libraries and algorithms to apply BEV Transformation accordingly.
 
+The following is the result of BEV calibration:
+
+![BEV Calibration](/assets/calibration_result.png)
+
 ### Image stitching
 
 Utilizing the OpenCV stitcher class and its methods we were able to successfully stitch around 25 BEV image of various scenes on campus, including the snake path, bubble road, and the warren logo near Price Center. At first we tried stitching BEV collected on track, but because the suboptimal lighting condition and lack of key features we weren't successful. For the successful attempts, we implemented two different sampling methods to filter out images that were too similar. This helps us reduce the number of images to stitch and processing complexity, since stitching over thousands of images collected in a single run together is infeasible. The first method uses Structural Similarity Index as a metric of similarity between the two images. The output is a value from 0 to 1, with 1 being exactly the same. However, we quickly discovered how computationally intensive the process is. Thus, we tried Peak signal-to-noise ratio. It compares the difference between the two images as noise. The higher the noise, the more different the two pictures are. PSNR was less computationally intensive but Jetson still struggles to stitch images in real time. So we decided to stitch the images in post-processing on a more powerful machines.
