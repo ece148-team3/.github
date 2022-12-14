@@ -74,6 +74,16 @@ Here is an example of what the stitched image looks like:
 
 
 ### Obstacle avoidance using disparity map
+- Using OAK-D Lite and DepthAI API
+- Measuring disparities between the pixels of the images get from the two mono camera. 
+- Trying to calculate the distance from the object to the camera.
+- Using the distance/depth to control the obstacle avoidance function
+
+What is disparities?
+
+How to get the depth from the disparity?
+
+Visualization of the disparity color map:
 
 ### Demo
 
