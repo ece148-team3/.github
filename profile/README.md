@@ -18,7 +18,9 @@
 ## Team Members
 
 - Ben Chiang (ECE)
+- Ling Yu Chen (ECE)
 - Xiran Wang (MAE)
+- Yaosen Zhang (ECE)
 
 ## Final project
 
@@ -73,10 +75,14 @@ Utilizing the OpenCV stitcher class and its methods we were able to successfully
 
 Here is an example of what the stitched image looks like:
 
-![Stitched Image](/assets/stitched_img.png)
+<img src="./../assets/stitched_img.png" width="160" height="400">
 
 
 ### Obstacle avoidance using disparity map
+
+We modify the depth-sensing functionality from DepthAI API in our OKA-D Lite camera to aid our desieogn of obstacle avoiding. Although there are pre-trained models in DepthAI that can detect objects which may be used to tell our car to change its direction when the object is near, these models have a limited scope on objects like human or vehicle but not universal obstacles that should unbiasedly deteted by our car to avoid collision. Therefore, we decide to use the disparity map captured by our stereo camera which uses both a left and a right mono camera to calculate the disparity of the two image view. Theoretically, the disparity distribution is inversely related to the depth distribution and hence a large disparity value should suggest a "danger zone" for our car so that an alternate direction should be chosen. However, we are faced several limitations on our device and cannot calculate depth from disparity using the theoretical formula at both a close and a distant point. Moreover, the noise on the dispartiy map add more unwanted factors that we need to be careful of to get an accurate sense of the depth distribution at the middel arrange. Here is some illustration of the disparity map with the numbers showing as the disparity value of the middle point of each region of interest. 
+
+<img src="./../assets/disparity_map_1.png" width="320" height="200" style="border-left:160px solid white;border-right:50px solid white;"> <img src="./../assets/disparity_map_2.png" width="320" height="200">
 
 ### Demo
 
@@ -100,7 +106,7 @@ Unfortunately, we ran out of time to implement the following features:
 - [ ] Allow for points of interest to be set and path planning to be done
 - [ ] Obtain more accurate distance measurement
 - [ ] Measure real time performance of the entire pipeline (TCP connection latency, disparity mapping, motion planning, etc)
-- [ ] Create a OCR word recognition algorithm to allow for text recognition on the road surface
+- [ ] Create a OCR word recognition algorithm to allow for text recognition on the road surface(We have successflly established the code for OCR using PyTesseract, but we have not implement the code into Jetson.)
 - [ ] Deploy the entire pipeline on ROS for better scalability and modularity
 
 ## Other projects
