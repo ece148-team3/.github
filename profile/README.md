@@ -4,16 +4,14 @@
   - [Team Members](#team-members)
   - [Final project](#final-project)
     - [Overview](#overview)
-    - [Hardware design](#hardware-design)
     - [Wiring Diagram](#wiring-diagram)
     - [Software design](#software-design)
     - [BEV calibration and real time projection](#bev-calibration-and-real-time-projection)
     - [Image stitching](#image-stitching)
     - [Obstacle avoidance using disparity map](#obstacle-avoidance-using-disparity-map)
-    - [Demo!](#demo)
+    - [Demo](#demo)
     - [Future work](#future-work)
   - [Other projects](#other-projects)
-    - [DonkeyCar behavioral cloning](#donkeycar-behavioral-cloning)
     - [OpenCV Line Follower](#opencv-line-follower)
     - [ROS2 Line Follower](#ros2-line-follower)
 
@@ -24,7 +22,7 @@
 
 ## Final project
 
-Our final project aims to create a autonomously driven car that can create a massive bird's eye view (BEV) image of a region. This can unlock many post processing in robotics, such as path-planning, model training, and (hazardous) environment evaluation. Typically, such task would be done with a drone, but drones are easily occluded by taller objects, such as trees, buildings, and tunnels overheads, not to mention the lost in environmental details when flying high up in the air. 
+Our final project aims to create a autonomously driven car that can create a massive bird's eye view (BEV) image of a region. This can unlock many post processing in robotics, such as path-planning, model training, and (hazardous) environment evaluation. Typically, such task would be done with a drone, but drones are easily occluded by taller objects, such as trees, buildings, and tunnels overheads, not to mention the lost in environmental details when flying high up in the air.
 
 We were able to achieve ~20 FPS real-time BEV projection on Nvidia Jetson Nano and ~25 planar images stitched in post-processing. Furthermore, using OAK-D lite camera's built in stereo pair camera, we were able to extract disparity info from the scene for obstacle avoiding.
 
@@ -33,14 +31,12 @@ We were able to achieve ~20 FPS real-time BEV projection on Nvidia Jetson Nano a
 Here's a list of things that we were able to achieve:
 
 1. Created a software processing pipeline that allows BEV image collection
-2. Successfully stitched together ~25 BEV images using OpenCV stitcher and Signal-to-noise-ratio (SNR)
+2. Successfully stitched together ~25 BEV images using OpenCV stitcher and Peak-Signal-to-noise-ratio (PSNR)
 3. Achieved accurate BEV project with programmatically obtained intrinsic and extrinsic using checkerboard calibration and OpenCV
 4. Collected 20k images on campus at different scenes
 5. Completed TCP socket prototype for transferring BEV images from Jetson to host server, but haven't implemented into real-time processing
 6. Deployed BEV projection code on Jetson with CUDA at ~20 FPS / 720P
 7. Extracted disparity information from the scene using OAK-D lite stereo pair for obstacle avoidance algorithm
-
-### Hardware design
 
 ### Wiring Diagram
 
@@ -50,10 +46,8 @@ Diagram Legend:
 - Red: Power
 - Dotted: Wireless
 
-
 <!-- ![ECE 148 Electrical Schematic_no_bg](/assets/ECE%20148%20Electrical%20Schematic.svg) -->
 ![ECE 148 Electrical Schematic_no_bg](/assets/ECE%20148%20Electrical%20Schematic_no_bg.svg)
-
 
 ### Software design
 
@@ -62,15 +56,32 @@ Diagram Legend:
 
 ### BEV calibration and real time projection
 
+
+
 We initially use chessboard to calibrate the camera. By doing so, we can use the fixed calibration to determine the geometric parameters of the image formation process. By using algorithm, we can obtain both intrinsic and extrinsic matrix. In short (The extrinsic matrix is a transformation matrix from the world coordinate system to the camera coordinate system, and the intrinsic matrix is a transformation matrix from the camera coordinate system to the pixel coordinate system.) After we obtain these matrix, we can use OpenCV libraries and algorithms to apply BEV Transformation accordingly.
 
 ### Image stitching
 
-Utilzing the stiticher object from OpenCV we were able to successfully stitch round 10 non-track image together, but because the suboptimal lighting condition along with the lack of details for the track we weren't able to sucessfully stitch any of the BEV images of the track together. With that being said we implemented two different method to filter out images that were too similar inorder to reduce processing overhead. Structural Similarity Index was implemented by comparing the structure similarity between the two images and outputs an index from 0 to 1, 1 for the same two images. But one downside for SSI was how computationally intensive the process is. Thus, we also tried using Peak signal-to-noise ratio as it compares the difference between the two images as noise, thus higher the noise, the more different the two pictures are, PSNR was less computationally intensive but Jetson still struggles to stitch images in real time.
+Utilizing the OpenCV stitcher class and its methods we were able to successfully stitch around 25 BEV image of various scenes on campus, including the snake path, bubble road, and the warren logo near Price Center. At first we tried stitching BEV collected on track, but because the suboptimal lighting condition and lack of key features we weren't successful. For the successful attempts, we implemented two different sampling methods to filter out images that were too similar. This helps us reduce the number of images to stitch and processing complexity, since stitching over thousands of images collected in a single run together is infeasible. The first method uses Structural Similarity Index as a metric of similarity between the two images. The output is a value from 0 to 1, with 1 being exactly the same. However, we quickly discovered how computationally intensive the process is. Thus, we tried Peak signal-to-noise ratio. It compares the difference between the two images as noise. The higher the noise, the more different the two pictures are. PSNR was less computationally intensive but Jetson still struggles to stitch images in real time. So we decided to stitch the images in post-processing on a more powerful machines.
+
+Here is an example of what the stitched image looks like:
+
+![Stitched Image](/assets/stitched_img.png)
+
 
 ### Obstacle avoidance using disparity map
 
-### Demo!
+### Demo
+
+Here's a few example of the BEV projection in action:
+
+The first example is a video of the car driving through one of the mockup intersections used by another team. You can see the BEV projection in action and the disparity visualization.
+
+<https://youtu.be/k5y6Xw4DUZQ>
+
+Here's another showcases the accuracy of the BEV projection. In the video, you can see the characters of the Jacob's Engineering Logo very clearly, as opposed to the original car POV.
+
+<https://youtu.be/KqpQ_7KYDQc>
 
 ### Future work
 
@@ -85,18 +96,26 @@ Unfortunately, we ran out of time to implement the following features:
 - [ ] Create a OCR word recognition algorithm to allow for text recognition on the road surface
 - [ ] Deploy the entire pipeline on ROS for better scalability and modularity
 
-
 ## Other projects
 
-The following are some of the projects that we have worked on during the course of the semester:
-
-### DonkeyCar behavioral cloning
-
+The following are some of the other projects that we have worked on this quarter:
 
 ### OpenCV Line Follower
 
+We utilized OpenCV to create a line following algorithm. The processing steps are as follows:
 
+1. Crop the image to only include the region of interest, which is roughly the horizon line to the bottom of the image
+2. Apply Gaussian blur to the image to reduce noise
+3. Convert RGB image to HSV color space
+4. Apply color segmentation to the image to isolate the yellow lane dividers
+5. Find the contours of the yellow lane dividers
+6. Find the center of the largest contour
+7. Steer the car based on the center of the largest contour. If the center of the contour on the right side of the image, then the car should steer to the right. If the center of the contour on the left side of the image, then the car should steer to the left. If the center of the contour is in the middle of the image, then the car should go straight. If there is no contour, then the car should continue it's last command.
 
-
+Here's a video of the robocar completing 3 laps around the track: <https://youtu.be/Zr8NgKoxbow>
 
 ### ROS2 Line Follower
+
+We deployed the same algorithm that successfully completed 3 autonomous laps into the ROS framework by using the `ucsd_robocar` ROS package provided in the docker container. In the config files of `ucsd_robocar_nav2_pkg` we turned on all the required components, which includes OAK-D lite, VESC, and the subpub_camera_actuator_launch from the `ucsd_robocar_basics2_pkg` package. The main file that we edited is the `subpub_camera_actuator_launch.py` that can be found the `ucsd_robocar_basics2_pkg` package. It subscribes to the camera node and publishes to the `cmd_vel` topic, which then controls the VESC a through an Ackermann steering node. However, we soon found that the performance of the pipeline was not as good as the OpenCV counterpart. In particular, the control signals have high latency where the turning commands would only be actuated after 1-2 seconds. To solve this issue, we first reduced the resolution of the images being published from the OAK-D lite camera node down to. Through experimentation, we found that the Ackermann node is another bottleneck, so we directly publish the steering angle to the VESC node. This significantly reduced the latency of the control signals. With all these modifications, our robot successfully completed 9.5 laps around the track.
+
+Here's a video of the robocar completing 3 laps: <https://youtu.be/5b5-0zkLHsc>
