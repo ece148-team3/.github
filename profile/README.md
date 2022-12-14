@@ -97,7 +97,7 @@ Unfortunately, we ran out of time to implement the following features:
 - [ ] Allow for points of interest to be set and path planning to be done
 - [ ] Obtain more accurate distance measurement
 - [ ] Measure real time performance of the entire pipeline (TCP connection latency, disparity mapping, motion planning, etc)
-- [ ] Create a OCR word recognition algorithm to allow for text recognition on the road surface
+- [ ] Create a OCR word recognition algorithm to allow for text recognition on the road surface(We have successflly established the code for OCR using PyTesseract, but we have not implement the code into Jetson.)
 - [ ] Deploy the entire pipeline on ROS for better scalability and modularity
 
 ## Other projects
